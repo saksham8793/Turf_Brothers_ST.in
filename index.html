@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Premier League Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Premier League Central</title>
   <style>
     * {
       margin: 0;
@@ -13,106 +13,60 @@
     }
 
     body {
-      background: #0f0f0f;
-      color: #fff;
+      background: #f1f5f9;
+      color: #333;
     }
 
     header {
-      background: #1c1c1c;
+      background: linear-gradient(135deg, #00b4db, #0083b0);
       padding: 20px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      position: relative;
-      z-index: 10;
-      flex-wrap: wrap;
+      color: white;
     }
 
     header h1 {
       font-size: 2rem;
-      color: #a020f0;
+      color: #fff;
+      margin-bottom: 15px;
     }
- /* Hide hamburger and mobile nav on big screens */
-.hamburger, #mobileNav {
-  display: none;
-}
 
-/* Show desktop nav on big screens */
-.nav-desktop {
-  display: flex;
-  gap: 15px;
-}
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
 
-/* Buttons style for desktop */
-.nav-desktop a {
-  padding: 10px 15px;
-  background: #a020f0;
-  color: white;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-.nav-desktop a:hover {
-  background: #8600c9;
-}
+    nav a {
+      padding: 10px 20px;
+      background: #ffffff30;
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
 
-/* Mobile styles */
-@media screen and (max-width: 768px) {
-  /* Hide desktop nav */
-  .nav-desktop {
-    display: none;
-  }
-  /* Show hamburger and mobile nav */
-  .hamburger {
-    display: block;
-    font-size: 30px;
-    cursor: pointer;
-    color: white;
-  }
-  #mobileNav {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0; left: 0;
-    height: 100vh;
-    width: 220px;
-    background: #1c1c1c;
-    padding-top: 60px;
-    gap: 20px;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-    z-index: 9999;
-  }
-  #mobileNav.nav-open {
-    transform: translateX(0);
-  }
-  /* Style mobile nav links as buttons */
-  #mobileNav a {
-    padding: 12px 20px;
-    background-color: #a020f0;
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-  }
-  #mobileNav a:hover {
-    background-color: #8600c9;
-  }
-}
-      .image-scroller {
+    nav a:hover {
+      background: #ffffff70;
+      transform: translateY(-2px);
+    }
+
+    .image-scroller {
       width: 100%;
-      max-width: 800px;
-      margin: 0 auto 40px;
+      max-width: 1000px;
+      margin: 40px auto;
       overflow: hidden;
-      position: relative;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
 
     .slider {
       display: flex;
-      animation: scroll 15s infinite;
+      animation: scroll 20s linear infinite;
     }
 
     .slider img {
@@ -131,14 +85,13 @@
     .hall-of-flames {
       padding: 2em;
       text-align: center;
+      background: #ffffff;
     }
 
     .hall-of-flames h2 {
       font-size: 2em;
-      position: relative;
-      display: inline-block;
-      color: orange;
-      text-shadow: 0 0 5px red, 0 0 10px yellow;
+      color: #ff5722;
+      margin-bottom: 1em;
     }
 
     .player-container {
@@ -149,11 +102,16 @@
     }
 
     .player-card {
-      min-width: 250px;
-      background: #1c2541;
+      min-width: 260px;
+      background: #e3f2fd;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 0 10px #3a506b;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform 0.3s;
+    }
+
+    .player-card:hover {
+      transform: scale(1.05);
     }
 
     .player-card img {
@@ -164,59 +122,60 @@
 
     .player-info {
       padding: 1em;
-      background: #3a506b;
+      background: #fff;
+      color: #333;
     }
 
     .about-us, .contact {
       padding: 40px 20px;
-      background: #1a1a1a;
+      background: #e8f5e9;
       margin-top: 40px;
     }
 
-    .about-us h2{
-      color: #f4c10f;
+    .about-us h2, .contact h1 {
+      color: #2e7d32;
       margin-bottom: 20px;
     }
-    .contact h1 {
-      color: #f4c10f;
-      margin-bottom: 20px;
-    }
+
     .about-us p {
       font-size: 1rem;
-      color: #ccc;
+      color: #333;
       line-height: 1.6;
     }
+
     .contact form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
 
-  .contact input,
-  .contact textarea {
-    padding: 10px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-  }
+    .contact input,
+    .contact textarea {
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
 
-  .contact button {
-    padding: 10px;
-    font-size: 1rem;
-    background: green;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background 0.3s;
-    cursor: pointer;
-  }
+    .contact button {
+      padding: 10px;
+      font-size: 1rem;
+      background: #43a047;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
 
-  .contact button:hover {
-    background: yellow;
-    color: black;
-  }
+    .contact button:hover {
+      background: #81c784;
+      color: black;
+    }
+
     .download-btn {
-      background-color: #28a745;
+      background-color: #00796b;
       color: white;
       padding: 12px 24px;
       font-size: 16px;
@@ -228,98 +187,87 @@
     }
 
     .download-btn:hover {
-      background-color: #218838;
+      background-color: #26a69a;
     }
+
     .center-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 40px 20px; /* optional padding */
-  background-color: #1a1a1a; /* optional background to match design */
-}
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 40px 20px;
+      background-color: #fce4ec;
+      text-align: center;
+    }
+
+    @media (max-width: 500px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      nav a {
+        padding: 8px 14px;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
+
   <header>
-  <h1>Premier League Central</h1>
-
-  <!-- Hamburger only on mobile -->
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-  <!-- Horizontal nav for big screens -->
-  <nav class="nav-desktop">
-    <a href="#">Home</a>
-    <a href="DOCTYPE html.html" target="_blank">Tournament</a>
-    <a href="Player Statestics.html" target="_blank">Player Info</a>
-    <a href="player leaderboard.html" target="_blank">Leaderboard</a>
+    <h1>Premier League Central</h1>
+    <nav>
+       <a href="#">Home</a>
+    <a href="Website/DOCTYPE html.html" target="_blank"">Tournament</a>
+    <a href="Website/Player Statestics.html" target="_blank">Player Info</a>
+    <a href="Website/player leaderboard.html" target="_blank">Leaderboard</a>
     <a href="#about">About Us</a>
     <a href="#contact">Join Us</a>
-    <a href="statestic.html">Tournament Winners</a>
-  </nav>
-
-  <!-- Sliding nav for mobile -->
-  <nav id="mobileNav" class="nav-closed">
-    <a href="#">Home</a>
-    <a href="DOCTYPE html.html" target="_blank"">Tournament</a>
-    <a href="Player Statestics.html" target="_blank">Player Info</a>
-    <a href="player leaderboard.html" target="_blank">Leaderboard</a>
-    <a href="#about">About Us</a>
-    <a href="#contact">Join Us</a>
-    <a href="statestic.html" target="_blank">Tournament Winners</a>
-  </nav>
-</header>
-
-  <div class="image-scroller">
-    <div class="slider">
-      <img src="PPL Images/Garud_Commando_Team_1600x500.png" alt="Slide 1">
-      <img src="PPL Images/Ghatak_Force_Team_1600x600.png" alt="Slide 2">
-      <img src="PPL Images/Para_Special_Forces_Team_1600x600.png" alt="Slide 3">
-      <img src="PPL Images/Garud_Commando_Team_1600x500.png" alt="Slide 4">
-    </div>
-  </div>
-
+    <a href="Website/statestic.html" target="_blank">Tournament Winners</a>
+    </nav>
+  </header>
   <section class="hall-of-flames">
-    <h2>Hall of Flames🔥</h2>
+    <h2>Hall of Flames 🔥</h2>
     <div class="player-container" id="playerScroll">
    
        <div class="player-card">
-        <img src="PPL Images/Screenshot 2025-05-06 123934.png" alt="Amit Kumar">
+        <img src="Website/PPL Images/Screenshot 2025-05-06 123934.png" alt="Amit Kumar">
         <h3 class="player-info">Amit Kumar</h3>
          <div class="player-info">Amit Kumar - Amit Kumar became Player of the Match twice in PPL finals, showcasing strong batting and bowling performances. He played 55 matches with an MVP score of 16.890.</div>
       </div>
 
        <div class="player-card">
-        <img src="PPL Images/Screenshot 2025-04-18 172318.png" alt="Prathamesh">
+        <img src="Website/PPL Images/Screenshot 2025-04-18 172318.png" alt="Prathamesh">
         <h3 class="player-info">Prathamesh</h3>
          <div class="player-info">Prathamesh - The player with the best overall stats based on MVP score is Prathamesh with a score of 19.514, indicating strong performance in both batting and bowling.</div>
       </div>
 
        <div class="player-card">
-        <img src="PPL Images/Screenshot 2025-04-18 172205.png" alt="Shailendra Thakur">
+        <img src="Website/PPL Images/Screenshot 2025-04-18 172205.png" alt="Shailendra Thakur">
         <h3 class="player-info">Shailendra Thakur</h3>
          <div class="player-info">Shailendra Thakur - Shailendra is a skilled batsman with 965 runs in 55 matches, showing consistent performance and a strong batting presence in the league. His ability to score runs efficiently makes him a valuable player for his team.</div>
       </div>
 
        <div class="player-card">
-        <img src="PPL Images/Screenshot 2025-04-18 173813.png" alt="Vivek Awasthi">
+        <img src="Website/PPL Images/Screenshot 2025-04-18 173813.png" alt="Vivek Awasthi">
         <h3 class="player-info">Vivek Awasthi</h3>
          <div class="player-info">Vivek Awasthi - Strong bowler with 4 wickets in finals, played 59 matches,He achieved an MVP score of 11.0288 and was named Player of the Match in PPL Season 12.</div>
       </div>
 
        <div class="player-card">
-        <img src="PPL Images/Screenshot 2025-04-15 135201.png" alt="Akshay Modha">
+        <img src="Website/PPL Images/Screenshot 2025-04-15 135201.png" alt="Akshay Modha">
         <h3 class="player-info">Akshay Modha</h3>
          <div class="player-info">Akshay Modha - Akshay Modha played 47 matches, scored 341 runs, bowled 5 overs at 10.141 economy, and won Player of the Match in PPL Seasons 7 and 8 finals with impactful batting and bowling.</div>
       </div>
 
        <div class="player-card">
-        <img src="PPL Images/Screenshot 2025-04-18 130525.png" alt="Arjun">
+        <img src="Website/PPL Images/Screenshot 2025-04-18 130525.png" alt="Arjun">
         <h3 class="player-info">Arjun</h3>
         <div class="player-info">Arjun -Arjun has played 56 matches with 512 runs and is known for his balanced batting and bowling skills, maintaining an economy of 7.969. He is good at both batting and bowling, making him a valuable all-rounder.</div>
       </div>
 
     </div>
+
   </section>
 
   <section class="about-us" id="about">
@@ -327,39 +275,27 @@
     <h3>PPL Cricket Turf: A Thriving Cricket Community</h3>
     <p>PPL Cricket Turf is more than just a playing ground—it’s a vibrant community that brings cricket enthusiasts together, creating an atmosphere similar to a mini IPL. Just like the Indian Premier League, this community features team owners who actively participate in managing and supporting their teams, adding a professional and competitive spirit to the game.
 
-Here, players experience the thrill of competitive cricket with the camaraderie of a close-knit community. Whether you're a passionate player or a dedicated fan, PPL Cricket Turf offers an exciting platform to enjoy the sport, build connections, and celebrate cricket at a local level with the intensity and enthusiasm of a major league.</p>
+Here, players experience the thrill of competitive cricket with the camaraderie of a close-knit community. Whether you're a passionate player or a dedicated fan, PPL Cricket Turf offers an exciting platform to enjoy the sport, build connections, and celebrate cricket at a local level with the intensity and enthusiasm of a major league.</p>      
   </section>
-  <div class="center-box">
-  <h1>Download Our App From Here ⬇️</h1>
-  <a href="https://pplcricket.in/PPL+Cricket-0_2_debug.apk" download class="download-btn">
-    Download APK
-  </a>
-</div>
-<section class="contact" id="contact">
-  <h1 style="font-size: 3rem;">Join Us</h1>
-  <form action="https://formspree.io/f/mzzrwwqw" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required />
-    <input type="email" name="email" placeholder="Your Email" required />
-    <input type="text" name="whatsapp" placeholder="Your WhatsApp Number" required />
-    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-</section>
-  <script>
-  function toggleMenu() {
-    const nav = document.getElementById('mobileNav');
-    nav.classList.toggle('nav-open');
-  }
 
-  // Close mobile menu on link click
-  document.querySelectorAll('#mobileNav a').forEach(link => {
-    link.addEventListener('click', () => {
-      document.getElementById('mobileNav').classList.remove('nav-open');
-    });
-  });
-  </script>
-  <!-- JotForm loads after scroll -->
-  <script
+  <div class="center-box">
+    <h1>Download Our App ⬇️</h1>
+    <a href="https://pplcricket.in/PPL+Cricket-0_2_debug.apk" download class="download-btn">
+      Download APK
+    </a>
+  </div>
+
+  <section class="contact" id="contact">
+    <h1>Join Us</h1>
+    <form action="https://formspree.io/f/mzzrwwqw" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <input type="text" name="whatsapp" placeholder="Your WhatsApp Number" required />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+<script
   src='https://cdn.jotfor.ms/agent/embedjs/0196d4eff4f278d0bc9c6194a018892938aa/embed.js?skipWelcome=1&maximizable=1'>
 </script>
 </body>
