@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cricket Leaderboard</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  background:#000;
+  overflow-x:hidden;
+}
+
+/* ================= BACKGROUND (PC) ================= */
+.crystal-bg{
+  position:fixed;
+  inset:-15%;
+  background:url("PPL Images/crystal-bg.png") center/cover no-repeat;
+  z-index:-3;
+}
+
+/* ================= LEADERBOARD ================= */
+.leaderboard{
+  width:95%;
+  max-width:1300px;
+  margin:20px auto;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(28px);
+  border-radius:26px;
+  box-shadow:0 40px 90px rgba(0,0,0,0.6);
+  overflow:hidden;
+}
+
+/* ================= HEADER ================= */
+.lb-header{
+  text-align:center;
+  padding:22px;
+  font-size:2rem;
+  font-weight:900;
+  color:white;
+  letter-spacing:3px;
+  background:linear-gradient(90deg,#fb923c,#9333ea);
+}
+
+/* ================= CONTROLS ================= */
+.controls{
+  display:flex;
+  gap:10px;
+  padding:10px;
+  justify-content:center;
+  background:rgba(255,255,255,0.08);
+}
+
+/* ================= SEARCH ================= */
+.search-box{ position:relative; }
+
+.search-box input{
+  width:200px;
+  height:50px;
+  padding:0 32px 0 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.35);
+  background:linear-gradient(
+    135deg,
+    rgba(251,146,60,0.18),
+    rgba(147,51,234,0.18)
+  );
+  color:white;
+  font-size:0.8rem;
+  outline:none;
+  backdrop-filter:blur(10px);
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+}
+
+.search-box input::placeholder{ color:transparent; }
+
+.search-box span{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:0.8rem;
+  color:rgba(255,255,255,0.75);
+  pointer-events:none;
+  transition:.25s ease;
+}
+
+.search-box input:focus + span,
+.search-box input:not(:placeholder-shown) + span{
+  transform:translateY(-180%);
+  font-size:0.65rem;
+  color:#fb923c;
+}
+
+.clear-btn{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  color:rgba(255,255,255,0.7);
+  cursor:pointer;
+  display:none;
+}
+
+.clear-btn:hover{ color:#fb923c; }
+
+/* ================= SORT ================= */
+.sort-wrap{ position:relative; }
+
+.sort-btn{
+  height:50px;
+  padding:0 30px;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(90deg,#fb923c,#9333ea);
+  color:white;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+.sort-menu{
+  position:absolute;
+  top:120%;
+  right:0;
+  background:rgba(15,15,15,0.95);
+  backdrop-filter:blur(12px);
+  border-radius:14px;
+  padding:8px;
+  display:none;
+  min-width:170px;
+  z-index:10;
+}
+
+.sort-menu button{
+  width:100%;
+  background:none;
+  border:none;
+  color:white;
+  padding:8px 10px;
+  border-radius:8px;
+  text-align:left;
+  cursor:pointer;
+}
+
+.sort-menu button:hover{
+  background:linear-gradient(90deg,#fb923c,#9333ea);
+}
+
+/* ================= TABLE ================= */
+table{
+  width:100%;
+  border-collapse:collapse;
+  color:white;
+}
+
+thead{
+  background:rgba(0,0,0,0.6);
+}
+
+th,td{
+  padding:12px 6px;
+  font-size:0.85rem;
+  text-align:center;
+  white-space:nowrap;
+  border:none;
+}
+
+/* ================= TABLE ROWS ================= */
+tbody tr{
+  background:linear-gradient(
+    90deg,
+    rgba(251,146,60,0.55),
+    rgba(147,51,234,0.55)
+  );
+  transition:.25s;
+  border-bottom:2px solid rgba(255,255,255,0.25);
+}
+
+tbody tr:hover{ transform:scale(1.02); }
+
+/* ================= HEADER SWITCH ================= */
+.desktop-thead{ display:table-header-group; }
+.mobile-thead{ display:none; }
+
+/* ================= MOBILE ================= */
+@media(max-width:480px){
+
+  .leaderboard{
+    width:100vw;
+    margin:0;
+    border-radius:0;
+  }
+
+  .desktop-thead{ display:none; }
+  .mobile-thead{ display:table-header-group; }
+
+  th,td{
+    font-size:0.55rem;
+    padding:4px 2px;
+  }
+}
+
+.home-btn{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  background:#7c3aed;
+  color:white;
+  padding:12px 16px;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:600;
+  box-shadow:0 10px 30px rgba(0,0,0,0.35);
+  z-index:99999;
+  transform:translateZ(0);
+  isolation:isolate;
+  transition:0.3s ease;
+}
+.home-btn:hover{
+  background:#8b5cf6;
+  transform:scale(1.08);
+}
+
+</style>
+</head>
+
+<body>
+<a href="HOME.html" class="home-btn">🏠 Home</a>
+<div class="crystal-bg"></div>
+
+<div class="leaderboard">
+  <div class="lb-header">LEADERBOARD</div>
+
+  <div class="controls">
+    <div class="search-box">
+      <input type="text" id="search" placeholder=" ">
+      <span>Search player</span>
+      <div class="clear-btn" id="clearBtn">&times;</div>
+    </div>
+
+    <div class="sort-wrap">
+      <button class="sort-btn" onclick="toggleSort()">Sort ▾</button>
+      <div class="sort-menu" id="sortMenu">
+        <button onclick="sortBy('seasons')">seasons</button>
+        <button onclick="sortBy('runs')">Total Runs</button>
+        <button onclick="sortBy('balls')">balls</button>
+        <button onclick="sortBy('matches')">Matches</button>
+        <button onclick="sortBy('wickets')">Wickets</button>
+        <button onclick="sortBy('overs')">overs</button>
+        <button onclick="sortBy('strikeRate')">Strike Rate</button>
+        <button onclick="sortBy('economy')">Economy</button>
+        <button onclick="sortBy('mvp')">MVP</button>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <!-- DESKTOP HEADER -->
+    <thead class="desktop-thead">
+      <tr>
+        <th>Rank</th><th>Name</th><th>Matches</th><th>Seasons</th><th>Runs</th><th>Balls</th>
+        <th>Overs</th><th>Strike Rate</th><th>Economy</th><th>Wicket</th><th>MVP score</th>
+      </tr>
+    </thead>
+
+    <!-- MOBILE HEADER -->
+    <thead class="mobile-thead">
+      <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Matches</th>
+        <th>Seasons</th>
+        <th>Runs</th>
+        <th>Balls</th>
+        <th>overs</th>
+        <th>SR</th>
+        <th>Eco</th>
+        <th>Wic</th>
+        <th>MVP pts</th>
+      </tr>
+    </thead>
+
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<script>
+let data=[
+{name:"Ad Saurabh Saxena",matches:73,seasons:13,runs:485,balls:485,overs:27,strikeRate:96.67,economy:8.724,wickets:21,mvp:6.666},
+{name:"Abhishek Joshi",matches:64,seasons:11,runs:533,balls:477,overs:49.4,strikeRate:98.52,economy:10.795,wickets:23,mvp:8.384},
+{name:"Amit Rai",matches:66,seasons:11,runs:532,balls:444,overs:89.3,strikeRate:120.61,economy:7.583,wickets:31,mvp:10.948},
+{name:"Amit Kumar",matches:66,seasons:11,runs:1085,balls:722,overs:59.5,strikeRate:143.01,economy:4.911,wickets:14,mvp:15.533},
+{name:"Aniket Desai",matches:31,seasons:5,runs:254,balls:234,overs:36,strikeRate:106.36,economy:7.812,wickets:14,mvp:10.511},
+{name:"Aayush Bhatnagar",matches:10,seasons:2,runs:38,balls:56,overs:6.7,strikeRate:54.76,economy:12.705,wickets:2,mvp:3.948},
+{name:"Aditya Upadhyaya",matches:5,seasons:1,runs:6,balls:5,overs:3,strikeRate:120,economy:10.33,wickets:1,mvp:2.808},
+{name:"Akshay",matches:10,seasons:2,runs:142,balls:107,overs:11.5,strikeRate:137.07,economy:9.96,wickets:5,mvp:12.406},
+{name:"Akshay Modha",matches:47,seasons:8,runs:341,balls:297,overs:5,strikeRate:105.83,economy:10.141,wickets:23,mvp:8.936},
+{name:"Akhilesh Shukla",matches:12,seasons:2,runs:51,balls:60,overs:18,strikeRate:101.11,economy:4.375,wickets:6,mvp:11.869},
+{name:"Aniket M",matches:33,seasons:7,runs:340,balls:302,overs:5,strikeRate:81.40,economy:4.261,wickets:1,mvp:7.341},
+{name:"Ankur Malviya",matches:31,seasons:5,runs:86,balls:89,overs:33.3,strikeRate:80.89,economy:5.674,wickets:15,mvp:7.736},
+{name:"Arjun",matches:74,seasons:13,runs:709,balls:645,overs:69.8,strikeRate:105.98,economy:8.018,wickets:21,mvp:8.616},
+{name:"Ashish Chawhan",matches:45,seasons:7,runs:543,balls:423,overs:45.7,strikeRate:126.87,economy:8.147,wickets:23,mvp:13.941},
+{name:"Ashish Shrivastava",matches:7,seasons:1,runs:19,balls:32,overs:5.1,strikeRate:59.38,economy:8.71,wickets:4,mvp:10.735},
+{name:"Bel Anjan Bhai",matches:43,seasons:7,runs:180,balls:189,overs:37,strikeRate:79.65,economy:5.622,wickets:18,mvp:8.519},
+{name:"Bharat",matches:37,seasons:6,runs:155,balls:156,overs:36.5,strikeRate:94.80,economy:6.061,wickets:24,mvp:8.870},
+{name:"Bharmal Ram Vishnoi",matches:24,seasons:4,runs:17,balls:28,overs:2.5,strikeRate:45,economy:4.606,wickets:2,mvp:3.0995},
+{name:"Deepak",matches:58,seasons:13,runs:192,balls:195,overs:67.2,strikeRate:83.23,economy:7.886,wickets:38,mvp:6.656},
+{name:"Dr Mahesh Rohine",matches:45,seasons:8,runs:441,balls:366,overs:60.6,strikeRate:98.34,economy:7.381,wickets:26,mvp:10.72488},
+{name:"Girish P",matches:6,seasons:1,runs:45,balls:43,overs:0,strikeRate:104.65,economy:0,wickets:0,mvp:5.755},
+{name:"Harsh Rana",matches:12,seasons:2,runs:62,balls:55,overs:6,strikeRate:56.36,economy:4.835,wickets:8,mvp:12.791},
+{name:"Himanshu C",matches:54,seasons:11,runs:54,balls:66,overs:63.5,strikeRate:87.72,economy:7.534,wickets:20,mvp:4.341},
+{name:"Jayraj Kharat",matches:29,seasons:5,runs:208,balls:200,overs:31.4,strikeRate:96.96,economy:5.648,wickets:16,mvp:10.805},
+{name:"Krishna Kumar",matches:55,seasons:11,runs:52,balls:99,overs:43.5,strikeRate:55.49,economy:7.027,wickets:17,mvp:3.614},
+{name:"Krishna Rajput",matches:5,seasons:1,runs:15,balls:30,overs:4,strikeRate:50,economy:5.5,wickets:2,mvp:4.922},
+{name:"Mangesh Nikumbh",matches:24,seasons:6,runs:87,balls:86,overs:16,strikeRate:109.40,economy:11.711,wickets:9,mvp:3.8635},
+{name:"Mohit Mathur",matches:17,seasons:3,runs:172,balls:174,overs:20,strikeRate:91.71,economy:8.4,wickets:7,mvp:14.7295},
+{name:"Mopendra Kumar Athe",matches:27,seasons:5,runs:21,balls:18,overs:1,strikeRate:46.66,economy:1.2,wickets:0,mvp:2.2715},
+{name:"Narendra Gondagare",matches:74,seasons:13,runs:259,balls:318,overs:36.3,strikeRate:70.22,economy:8.276,wickets:13,mvp:4.570},
+{name:"Naveen Battini",matches:7,seasons:1,runs:42,balls:46,overs:6.1,strikeRate:9.25,economy:5.51,wickets:4,mvp:9.879},
+{name:"Nishal Gupta",matches:70,seasons:12,runs:760,balls:626,overs:49.3,strikeRate:120.57,economy:8.105,wickets:31,mvp:11.899},
+{name:"Nitin Khare",matches:58,seasons:11,runs:204,balls:171,overs:58.3,strikeRate:121.93,economy:6.563,wickets:29,mvp:7.2928},
+{name:"Paritosh Sagade",matches:12,seasons:2,runs:39,balls:67,overs:10.1,strikeRate:51.46,economy:7.915,wickets:3,mvp:5.267},
+{name:"Yash Saxena",matches:49,seasons:8,runs:193,balls:206,overs:44,strikeRate:86.96,economy:7.137,wickets:16,mvp:5.579},
+{name:"Vishal K",matches:66,seasons:11,runs:371,balls:346,overs:24.4,strikeRate:90.66,economy:5.070,wickets:22,mvp:6.564636},
+{name:"Tilak Asopa",matches:62,seasons:11,runs:223,balls:259,overs:46.8,strikeRate:91.07,economy:7.993,wickets:23,mvp:6.590},
+{name:"Vishal Narendra",matches:36,seasons:6,runs:129,balls:91,overs:15,strikeRate:221.82,economy:6.661,wickets:5,mvp:4.202},
+{name:"Virender Singh Negi",matches:40,seasons:6,runs:288,balls:256,overs:52.2,strikeRate:96.27,economy:7.423,wickets:14,mvp:9.798},
+{name:"Shubham Singh",matches:57,seasons:9,runs:771,balls:596,overs:56.3,strikeRate:125.79,economy:6.552,wickets:24,mvp:15.806},
+{name:"Shailendra Thakur",matches:76,seasons:13,runs:1101,balls:813,overs:27.3,strikeRate:116.43,economy:9.213,wickets:20,mvp:11.932},
+{name:"Prathamesh",matches:39,seasons:6,runs:871,balls:511,overs:44,strikeRate:171.37,economy:8.96,wickets:10,mvp:19.514},
+{name:"Salim Shaikh",matches:15,seasons:3,runs:37,balls:37,overs:15,strikeRate:75.23,economy:8.225,wickets:6,mvp:5.938},
+{name:"Sanket Kherdikar",matches:37,seasons:7,runs:81,balls:92,overs:24,strikeRate:85.70,economy:12.476,wickets:6,mvp:2.445},
+{name:"Surendra Kushwah",matches:54,seasons:9,runs:196,balls:161,overs:82.3,strikeRate:98.09,economy:7.332,wickets:30,mvp:8.914},
+{name:"Saurabh G",matches:58,seasons:10,runs:81,balls:134,overs:44.2,strikeRate:66.75,economy:10.921,wickets:16,mvp:4.442},
+{name:"Saksham Maheshwari",matches:27,seasons:4,runs:226,balls:183,overs:29.9,strikeRate:121.76,economy:6.952,wickets:16,mvp:14.306},
+{name:"Rajveer",matches:19,seasons:3,runs:64,balls:63,overs:27,strikeRate:171,economy:6.356,wickets:10,mvp:10.623},
+{name:"Sriniwasrao Kandimalla",matches:27,seasons:5,runs:59,balls:88,overs:16.6,strikeRate:166,economy:9.896,wickets:8,mvp:4.77},
+{name:"Sarvesh Purohit",matches:11,seasons:2,runs:9,balls:29,overs:10,strikeRate:64,economy:6.46,wickets:5,mvp:5.403},
+{name:"Shashi Shekhar",matches:16,seasons:3,runs:109,balls:132,overs:12,strikeRate:88,economy:5.22,wickets:3,mvp:5.927},
+{name:"Tanuj Shah",matches:18,seasons:3,runs:9,balls:37,overs:11,strikeRate:99,economy:6.793,wickets:5,mvp:2.72},
+{name:"Vivek Awasthi",matches:70,seasons:12,runs:604,balls:537,overs:106.4,strikeRate:688,economy:6.523,wickets:31,mvp:10.433},
+{name:"Ameya Shelke",matches:5,seasons:1,runs:31,balls:30,overs:2,strikeRate:12,economy:6,wickets:1,mvp:4.325},
+{name:"Amol Gawali",matches:25,seasons:4,runs:332,balls:218,overs:36.6,strikeRate:204,economy:5.6,wickets:14,mvp:15.313},
+{name:"Ashish B",matches:4,seasons:1,runs:0,balls:3,overs:1,strikeRate:1,economy:1,wickets:0,mvp:0.5},
+{name:"Bhupendra Bhadoriya",matches:60,seasons:10,runs:21,balls:40,overs:15.5,strikeRate:178,economy:8.008,wickets:6,mvp:2.063},
+{name:"Dhiraj",matches:30,seasons:6,runs:226,balls:217,overs:11.2,strikeRate:95,economy:5.066,wickets:8,mvp:7.156},
+{name:"Gaurav Palherkar",matches:49,seasons:9,runs:126,balls:135,overs:50.4,strikeRate:457,economy:9.03,wickets:17,mvp:5.784},
+{name:"Gaurav Soni",matches:23,seasons:4,runs:27,balls:55,overs:15.3,strikeRate:120,economy:8.052,wickets:5,mvp:3.219},
+{name:"Mohit Mishra",matches:4,seasons:1,runs:6,balls:15,overs:0,strikeRate:0,economy:0,wickets:0,mvp:2.76},
+{name:"Mohit Saxena",matches:40,seasons:7,runs:77,balls:113,overs:55.8,strikeRate:465,economy:8.322,wickets:17,mvp:4.891},
+{name:"Naveen",matches:55,seasons:9,runs:462,balls:367,overs:28,strikeRate:238,economy:8.38,wickets:14,mvp:9.577},
+{name:"Og",matches:29,seasons:5,runs:148,balls:115,overs:30.5,strikeRate:319,economy:10.584,wickets:8,mvp:7.163},
+{name:"Omkar New Cricket",matches:3,seasons:1,runs:0,balls:0,overs:1,strikeRate:5,economy:4,wickets:0,mvp:0.706},
+{name:"Prashant Pandey",matches:66,seasons:12,runs:464,balls:392,overs:86.5,strikeRate:584,economy:6.964,wickets:31,mvp:10.573},
+{name:"Prashant S",matches:66,seasons:12,runs:663,balls:574,overs:61.2,strikeRate:493,economy:8.277,wickets:18,mvp:9.529},
+{name:"Rohit Narwani",matches:29,seasons:5,runs:176,balls:165,overs:26,strikeRate:196,economy:7.89,wickets:13,mvp:9.284},
+{name:"Sagar C",matches:70,seasons:12,runs:186,balls:207,overs:30.4,strikeRate:306,economy:7.05,wickets:14,mvp:4.886},
+{name:"Tilak 33kk",matches:19,seasons:3,runs:6,balls:26,overs:14,strikeRate:154,economy:10.276,wickets:6,mvp:5.11},
+{name:"Vishal Gir",matches:4,seasons:1,runs:12,balls:16,overs:7,strikeRate:37,economy:5.29,wickets:2,mvp:3.906},
+{name:"Shubham D",matches:12,seasons:2,runs:95,balls:95,overs:10,strikeRate:82,economy:8.2,wickets:2,mvp:7.623},
+{name:"Ankush Maheshwari",matches:12,seasons:2,runs:103,balls:89,overs:12.4,strikeRate:53,economy:4.255,wickets:8,mvp:12.01},
+{name:"Kishor Madrewar",matches:7,seasons:1,runs:21,balls:22,overs:4,strikeRate:42,economy:10.5,wickets:1,mvp:4.302},
+{name:"Priyanshu Dhapodkar",matches:12,seasons:2,runs:33,balls:57,overs:11,strikeRate:94,economy:8.6,wickets:2,mvp:4.285},
+{name:"Pratik Gaikwad",matches:7,seasons:1,runs:1,balls:6,overs:7,strikeRate:64,economy:9.14,wickets:2,mvp:5.595},
+{name:"Sahil",matches:5,seasons:1,runs:0,balls:2,overs:4,strikeRate:23,economy:5.75,wickets:1,mvp:1.498}
+];
+
+const tbody=document.getElementById("tbody");
+const search=document.getElementById("search");
+const clearBtn=document.getElementById("clearBtn");
+
+function render(list){
+ tbody.innerHTML="";
+ list.forEach((p,i)=>{
+  tbody.innerHTML+=`
+   <tr>
+    <td>${i+1}</td>
+    <td>${p.name}</td>
+    <td>${p.matches}</td>
+    <td>${p.seasons}</td>
+    <td>${p.runs}</td>
+    <td>${p.balls}</td>
+    <td>${p.overs}</td>
+    <td>${p.strikeRate}</td>
+    <td>${p.economy}</td>
+    <td>${p.wickets}</td>
+    <td>${p.mvp}</td>
+   </tr>`;
+ });
+}
+
+render(data);
+
+search.addEventListener("input",()=>{
+ clearBtn.style.display=search.value?"block":"none";
+ render(data.filter(p=>p.name.toLowerCase().includes(search.value.toLowerCase())));
+});
+
+clearBtn.onclick=()=>{
+ search.value="";
+ clearBtn.style.display="none";
+ render(data);
+};
+
+function toggleSort(){
+ const m=document.getElementById("sortMenu");
+ m.style.display=m.style.display==="block"?"none":"block";
+}
+
+function sortBy(key){
+  if(key === "economy"){
+    // Economy: LOW → HIGH
+    data.sort((a, b) => a[key] - b[key]);
+  } else {
+    // All others: HIGH → LOW
+    data.sort((a, b) => b[key] - a[key]);
+  }
+  render(data);
+  toggleSort();
+}
+
+</script>
+
+</body>
+</html>
