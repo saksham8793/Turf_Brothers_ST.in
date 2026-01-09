@@ -1,291 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Premier League Central</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Turf_Brothers_ST</title>
 
-    body {
-      background: #f1f5f9;
-      color: #333;
-    }
+<style>
+/* ================= RESET ================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+body{
+  background:#e6f0fb;
+  color:#1f2933;
+  line-height:1.6;
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
 
-    header {
-      background: linear-gradient(135deg, #00b4db, #0083b0);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: white;
-    }
+/* ================= GLOBAL TEXT FIX (MOBILE SAFE) ================= */
+h1,h2,h3{
+  line-height:1.25;
+  white-space:normal;
+  word-break:normal;
+  overflow-wrap:anywhere;
+  text-align:center;
+}
 
-    header h1 {
-      font-size: 2rem;
-      color: #fff;
-      margin-bottom: 15px;
-    }
+/* ================= HEADER ================= */
+header{
+  position:relative;
+  background: linear-gradient(135deg,#4f9cf9,#80c0ff,#b3d8ff);
+  padding:50px 16px 120px;
+  text-align:center;
+  overflow:hidden;
+  border-bottom-left-radius:50px;
+  border-bottom-right-radius:50px;
+}
+header h1{
+  font-size:clamp(1.6rem,5vw,2.5rem);
+  color:white;
+  margin-bottom:20px;
+  z-index:2;
+  position:relative;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  z-index:2;
+  position:relative;
+}
+nav a{
+  padding:10px 16px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(6px);
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:600;
+  color:white;
+  font-size:clamp(0.75rem,3vw,1rem);
+  transition:all 0.3s ease;
+}
+nav a:hover{
+  background: rgba(255,255,255,0.45);
+  transform: translateY(-4px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
 
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-    }
+/* ================= FLOATING BALLS ================= */
+.ball{
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,0.25);
+  animation: float 8s linear infinite;
+}
+@keyframes float{
+  0%{transform:translateY(0) translateX(0);}
+  50%{transform:translateY(-25px) translateX(35px);}
+  100%{transform:translateY(0) translateX(0);}
+}
 
-    nav a {
-      padding: 10px 20px;
-      background: #ffffff30;
-      color: white;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
+/* ================= HALL OF FLAMES ================= */
+.hall-of-flames, .hall-of-flame{
+  padding:70px 16px;
+  background: linear-gradient(135deg,#cce4ff,#80c0ff);
+  border-radius:20px;
+  margin:40px auto;
+  max-width:1100px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.1);
+}
+.hall-of-flames h2, .hall-of-flame h2{
+  font-size:clamp(1.2rem,4.5vw,2rem);
+  margin-bottom:40px;
+  color:#012a4a;
+}
+.player-container{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding-bottom:20px;
+}
+.player-container::-webkit-scrollbar{height:6px;}
+.player-container::-webkit-scrollbar-thumb{background:#4682b4;border-radius:10px;}
+.player-card{
+  min-width:240px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  border-radius:20px;
+  padding:22px;
+  transition:all 0.4s ease;
+  opacity:0;
+  transform: translateY(30px);
+}
+.player-card.visible{
+  opacity:1;
+  transform: translateY(0);
+}
+.player-card:hover{
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+}
+.player-card h3{
+  font-size:clamp(1rem,4vw,1.2rem);
+  color:#012a4a;
+  margin-bottom:10px;
+}
+.player-info{
+  font-size:clamp(0.85rem,3.5vw,0.95rem);
+  color:#03396c;
+}
 
-    nav a:hover {
-      background: #ffffff70;
-      transform: translateY(-2px);
-    }
+/* ================= ABOUT US ================= */
+.about-us{
+  padding:70px 16px;
+  position:relative;
+  background:linear-gradient(135deg,#d9f0ff 50%,#ffffff 50%);
+  margin:60px auto;
+  border-radius:20px;
+  max-width:1000px;
+}
+.about-us h2{
+  font-size:clamp(1.3rem,4.5vw,2rem);
+  color:#012a4a;
+  margin-bottom:20px;
+}
+.about-us h3{
+  font-size:clamp(1rem,4vw,1.2rem);
+  margin-bottom:15px;
+}
+.about-us p{
+  max-width:900px;
+  margin:auto;
+  font-size:clamp(0.9rem,3.5vw,1rem);
+  color:#475569;
+  line-height:1.7;
+  text-align:center;
+}
 
-    .image-scroller {
-      width: 100%;
-      max-width: 1000px;
-      margin: 40px auto;
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
+/* ================= DOWNLOAD ================= */
+.center-box{
+  background: linear-gradient(135deg,#cce4ff,#80c0ff);
+  padding:60px 16px;
+  border-radius:25px;
+  text-align:center;
+  margin:60px auto;
+  max-width:700px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.12);
+  position: relative;
+  overflow: hidden;
+}
+.center-box::before{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:100%;
+  background: radial-gradient(circle, #4f9cf9 0%, transparent 70%);
+  opacity:0.2;
+  animation: rotateBG 15s linear infinite;
+}
+@keyframes rotateBG{
+  0%{transform: rotate(0deg);}
+  100%{transform: rotate(360deg);}
+}
+.center-box h1{
+  font-size:clamp(1.2rem,4.5vw,1.8rem);
+  color:#012a4a;
+  margin-bottom:20px;
+  position:relative;
+}
+.download-card p{
+  font-size:clamp(0.9rem,3.5vw,1rem);
+  color:#475569;
+  margin-bottom:40px;
+}
+.download-btn{
+  padding:16px 30px;
+  font-size:clamp(0.9rem,3.5vw,1.1rem);
+  background:#4f9cf9;
+  color:white;
+  border:none;
+  border-radius:16px;
+  cursor:pointer;
+  text-decoration:none;
+  box-shadow:0 8px 25px rgba(79,156,249,0.5);
+  transition:0.4s;
+}
+.download-btn:hover{
+  background:#80c0ff;
+  transform: scale(1.08);
+}
 
-    .slider {
-      display: flex;
-      animation: scroll 20s linear infinite;
-    }
+/* ================= CONTACT ================= */
+.contact{
+  padding:60px 16px;
+  border-radius:25px;
+  max-width:850px;
+  margin:60px auto 80px auto;
+  background: linear-gradient(135deg,#cce4ff,#80c0ff);
+  box-shadow:0 20px 50px rgba(0,0,0,0.1);
+  overflow:hidden;
+  position: relative;
+}
+.contact::before{
+  content:"";
+  position:absolute;
+  top:-40%;
+  right:-30%;
+  width:150%;
+  height:150%;
+  background: radial-gradient(circle, #4f9cf9 0%, transparent 70%);
+  opacity:0.15;
+  animation: rotateBG 20s linear infinite reverse;
+}
+.contact h1{
+  font-size:clamp(1.3rem,4.5vw,2rem);
+  color:#012a4a;
+  margin-bottom:30px;
+}
+.contact-card{
+  background:white;
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+.contact-card p{
+  font-size:clamp(0.9rem,3.5vw,1rem);
+  color:#475569;
+  margin-bottom:20px;
+  text-align:center;
+}
+.contact input, .contact textarea{
+  padding:14px;
+  font-size:clamp(0.9rem,3.5vw,1rem);
+  border-radius:10px;
+  border:1px solid #ccc;
+  width:100%;
+  margin-bottom:15px;
+}
+.contact button{
+  padding:14px;
+  font-size:clamp(0.9rem,3.5vw,1rem);
+  background:#4f9cf9;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+  width:100%;
+}
+.contact button:hover{
+  background:#80c0ff;
+  transform:scale(1.05);
+}
 
-    .slider img {
-      width: 100%;
-      flex-shrink: 0;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-100%); }
-      50% { transform: translateX(-200%); }
-      75% { transform: translateX(-300%); }
-      100% { transform: translateX(0); }
-    }
-
-    .hall-of-flames {
-      padding: 2em;
-      text-align: center;
-      background: #ffffff;
-    }
-
-    .hall-of-flames h2 {
-      font-size: 2em;
-      color: #ff5722;
-      margin-bottom: 1em;
-    }
-
-    .player-container {
-      display: flex;
-      overflow-x: auto;
-      gap: 1em;
-      padding: 1em 0;
-    }
-
-    .player-card {
-      min-width: 260px;
-      background: #e3f2fd;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      transition: transform 0.3s;
-    }
-
-    .player-card:hover {
-      transform: scale(1.05);
-    }
-
-    .player-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .player-info {
-      padding: 1em;
-      background: #fff;
-      color: #333;
-    }
-
-    .about-us, .contact {
-      padding: 40px 20px;
-      background: #e8f5e9;
-      margin-top: 40px;
-    }
-
-    .about-us h2, .contact h1 {
-      color: #2e7d32;
-      margin-bottom: 20px;
-    }
-
-    .about-us p {
-      font-size: 1rem;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    .contact form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .contact input,
-    .contact textarea {
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .contact button {
-      padding: 10px;
-      font-size: 1rem;
-      background: #43a047;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      transition: background 0.3s;
-      cursor: pointer;
-    }
-
-    .contact button:hover {
-      background: #81c784;
-      color: black;
-    }
-
-    .download-btn {
-      background-color: #00796b;
-      color: white;
-      padding: 12px 24px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
-
-    .download-btn:hover {
-      background-color: #26a69a;
-    }
-
-    .center-box {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding: 40px 20px;
-      background-color: #fce4ec;
-      text-align: center;
-    }
-
-    @media (max-width: 500px) {
-      header h1 {
-        font-size: 1.5rem;
-      }
-
-      nav a {
-        padding: 8px 14px;
-        font-size: 14px;
-      }
-    }
-  </style>
+/* ================= HOME BUTTON ================= */
+.home-btn{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  background:#5C5CFF;
+  color:white;
+  padding:12px 16px;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:600;
+  box-shadow:0 10px 30px rgba(0,0,0,0.25);
+  transition:0.3s;
+  z-index:9999;
+}
+.home-btn:hover{
+  background:#7b7bff;
+  transform:scale(1.08);
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h1>Premier League Central</h1>
-    <nav>
-       <a href="#">Home</a>
-    <a href="DOCTYPE html.html" target="_blank"">Tournament</a>
-    <a href="Player Statestics.html" target="_blank">Player Info</a>
+<a href="HOME.html" class="home-btn">🏠 Home</a>
+
+<header>
+  <h1>Turf_Brothers_ST (PPL)</h1>
+  <nav>
+    <a href="#">Home</a>
     <a href="player leaderboard.html" target="_blank">Leaderboard</a>
+    <a href="statestic.html" target="_blank">Tournament</a>
     <a href="#about">About Us</a>
     <a href="#contact">Join Us</a>
-    <a href="statestic.html" target="_blank">Tournament Winners</a>
-    </nav>
-  </header>
-  <section class="hall-of-flames">
-    <h2>Hall of Flames 🔥</h2>
-    <div class="player-container" id="playerScroll">
-   
-       <div class="player-card">
-        <img src="PPL Images/player.png" alt="Amit Kumar">
-        <h3 class="player-info">Amit Kumar</h3>
-         <div class="player-info">Amit Kumar - Amit Kumar became Player of the Match twice in PPL finals, showcasing strong batting and bowling performances. He played 61 matches with an MVP score of 16.311.</div>
-      </div>
+  </nav>
+  <div class="ball" style="width:40px;height:40px;top:20%;left:10%;"></div>
+  <div class="ball" style="width:25px;height:25px;top:50%;left:70%;"></div>
+  <div class="ball" style="width:30px;height:30px;top:80%;left:30%;"></div>
+</header>
 
-       <div class="player-card">
-        <img src="PPL Images/player.png" alt="Prathamesh">
-        <h3 class="player-info">Prathamesh</h3>
-         <div class="player-info">Prathamesh - The player with the best overall stats based on MVP score is Prathamesh with a score of 19.514, indicating strong performance in both batting and bowling.</div>
-      </div>
-
-       <div class="player-card">
-        <img src="PPL Images/player.png" alt="Shailendra Thakur">
-        <h3 class="player-info">Shailendra Thakur</h3>
-         <div class="player-info">Shailendra Thakur - Shailendra is a skilled batsman with 1066 runs in 70 matches, showing consistent performance and a strong batting presence in the league. His ability to score runs efficiently makes him a valuable player for his team.</div>
-      </div>
-
-       <div class="player-card">
-        <img src="PPL Images/player.png" alt="Vivek Awasthi">
-        <h3 class="player-info">Vivek Awasthi</h3>
-         <div class="player-info">Vivek Awasthi - Strong bowler with 31 wickets in finals, played 65 matches,He achieved an MVP score of 10.856 and was named Player of the Match in PPL Season 12.</div>
-      </div>
-
-       <div class="player-card">
-        <img src="PPL Images/player.png" alt="Akshay Modha">
-        <h3 class="player-info">Akshay Modha</h3>
-         <div class="player-info">Akshay Modha - Akshay Modha played 47 matches, scored 341 runs, bowled 5 overs at 10.936 economy, and won Player of the Match in PPL Seasons 8 and 8 finals with impactful batting and bowling.</div>
-      </div>
-
-       <div class="player-card">
-        <img src="PPL Images/player.png" alt="Arjun">
-        <h3 class="player-info">Arjun</h3>
-        <div class="player-info">Arjun -Arjun has played 67 matches with 652 runs and is known for his balanced batting and bowling skills, maintaining an economy of 8.080. He is good at both batting and bowling, making him a valuable all-rounder.</div>
-      </div>
-
-    </div>
-
-  </section>
-
-  <section class="about-us" id="about">
-    <h2>About Us</h2>
-    <h3>PPL Cricket Turf: The PPL Brotherhood</h3>
-    <p>
-Post-COVID, mid-2022, cricket lovers stranded at home, missing the smack of the ball and the banter that makes every match unforgettable. That’s when Gaurav Palhekar (aka GP Bhai)had an idea—why not bring the gang back together and create a tournament where fierce competition meets unbreakable brotherhood? And just like that, PPL was born— the ultimate battleground for cricketers from all walks of life, all ages, and all skill levels. Fast forward three years, 13 seasons down, and we’re gearing up for PPL Season 14 -bigger, bolder, and packed with even more nail-biting rivalries. PPL has earned the title of “IPL of Pune”, where six teams battle it out, each led by a powerhouse owner, fighting for glory in the most intense auction-driven player selection. But PPL is more than just a league—it’s a family, built on competition, camaraderie, and some hilariously questionable cricketing decisions. Behind the scenes, a dedicated Committeeensures each season is more thrilling than the last. And if you think the drama and heroics are reserved for the turf, think again! Our official YouTube channel, “turf_ppl,”capturesevery epic moment— from jaw-dropping catches to post-match leg-pulling sessions. So, if you’re ready to witness grit, passion, and the kind of cricket banter that could start (and settle) wars,you’re in the right place.Welcome to the PPL Brotherhood—where the spirit of cricket is alive, well, and occasionally hilariously competitive! 🏏🔥</p>      
-  </section>
-
-  <div class="center-box">
-    <h1>Download Our App ⬇️</h1>
-    <a href="https://pplcricket.in/PPL+Cricket-0_2_debug.apk" download class="download-btn">
-      Download APK
-    </a>
+<section class="hall-of-flames">
+  <h2>🔥 Hall of Flames: Highest Run Scorers 🔥</h2>
+  <div class="player-container">
+    <div class="player-card"><h3>Shailendra Thakur</h3><div class="player-info">1st position in Highest Run Scorers with 1101 runs and 11.932 MVP Score.</div></div>
+    <div class="player-card"><h3>Amit Kumar</h3><div class="player-info">2nd position in Highest Run Scorers with 1085 runs and 15.533 MVP Score.</div></div>
+    <div class="player-card"><h3>Prathamesh</h3><div class="player-info">3rd position in Highest Run Scorers with 871 runs and 19.514 MVP Score.</div></div>
+    <div class="player-card"><h3>Shubham Singh</h3><div class="player-info">4th position in Highest Run Scorers with 771 runs and 15.806 MVP Score.</div></div>
+    <div class="player-card"><h3>Nishal Gupta</h3><div class-"player-info">5th position in Highest Run Scorers with 760 runs and 11.899 MVP Score.</div></div>
+    <div class="player-card"><h3>Arjun</h3><div class-"player-info">6th position in Highest Run Scorers with 709 runs and 8.616 MVP Score.</div></div>
   </div>
+</section>
 
-  <section class="contact" id="contact">
-    <h1>Join Us</h1>
+<section class="hall-of-flame">
+  <h2>🔥 Hall of Flames: Highest Wicket Takers 🔥</h2>
+  <div class="player-container">
+    <div class="player-card"><h3>Deepak</h3><div class="player-info">1st position in Highest Wicket Takers with 38 Wickets in 67 overs.</div></div>
+    <div class="player-card"><h3>Nishal Gupta</h3><div class="player-info">2nd position in Highest Wicket Takers with 31 Wickets in 49 overs.</div></div>
+    <div class="player-card"><h3>Prashant Pandey</h3><div class="player-info">3rd position in Highest Wicket Takers with 31 Wickets in 86 overs.</div></div>
+    <div class="player-card"><h3>Amit Rai</h3><div class="player-info">4th position in Highest Wicket Takers with 31 Wickets in 89 overs.</div></div>
+    <div class="player-card"><h3>Vivek Awasthi</h3><div class="player-info">5th position in Highest Wicket Takers with 31 Wickets in 106 overs.</div></div>
+    <div class="player-card"><h3>Surendra Kushwah</h3><div class="player-info">6th position in Highest Wicket Takers with 30 Wickets in 82 overs.</div></div>
+  </div>
+</section>
+
+<section class="about-us" id="about">
+  <h2>About Us</h2>
+  <h3>PPL Cricket Turf: The PPL Brotherhood</h3>
+  <p>Post-COVID, mid-2022, cricket lovers stranded at home. PPL was born—the ultimate battleground for cricketers of all skill levels. Welcome to the PPL Brotherhood—where the spirit of cricket is alive and occasionally hilariously competitive! 🏏🔥</p>
+</section>
+
+<div class="center-box">
+  <h1>Download Our App ⬇️</h1>
+  <div class="download-card">
+    <p>Get the latest PPL app and stay updated with live scores, player stats, and exclusive highlights!</p>
+    <a href="https://pplcricket.in/PPL+Cricket-0_2_debug.apk" download class="download-btn">Download APK</a>
+  </div>
+</div>
+
+<section class="contact" id="contact">
+  <h1>Join our Turf_Brothers_ST Community</h1>
+  <div class="contact-card">
+    <p>Be a part of our growing cricket family! Submit your details and connect with fellow enthusiasts.</p>
     <form action="https://formspree.io/f/mzzrwwqw" method="POST">
       <input type="text" name="name" placeholder="Your Name" required />
       <input type="email" name="email" placeholder="Your Email" required />
@@ -293,10 +370,20 @@ Post-COVID, mid-2022, cricket lovers stranded at home, missing the smack of the 
       <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
     </form>
-  </section>
-<script
-  src='https://cdn.jotfor.ms/agent/embedjs/0196d4eff4f278d0bc9c6194a018892938aa/embed.js?skipWelcome=1&maximizable=1'>
+  </div>
+</section>
+
+<script>
+window.onscroll = ()=>{
+  document.querySelectorAll('.player-card').forEach(card=>{
+    if(card.getBoundingClientRect().top < window.innerHeight-100){
+      card.classList.add('visible');
+    }
+  });
+};
 </script>
+
+<script src='https://cdn.jotfor.ms/agent/embedjs/0196d4eff4f278d0bc9c6194a018892938aa/embed.js?skipWelcome=1&maximizable=1'></script>
+
 </body>
 </html>
-
