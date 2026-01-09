@@ -205,9 +205,40 @@ tbody tr:hover{ transform:scale(1.02); }
   .mobile-thead{ display:table-header-group; }
 
   th,td{
-    font-size:0.55rem;
-    padding:4px 2px;
+    font-size:0.5rem;
+    padding:2px 1px;
   }
+}
+
+/* ===== MAXIMUM COLUMN COMPRESSION (ADD ONLY) ===== */
+@media(max-width:480px){
+  .table-scroll{
+    width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  table{
+    min-width:650px;
+    table-layout:fixed;
+  }
+
+  th,td{
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  th:nth-child(1),td:nth-child(1){width:28px;}
+  th:nth-child(2),td:nth-child(2){width:70px;}
+  th:nth-child(3),td:nth-child(3){width:28px;}
+  th:nth-child(4),td:nth-child(4){width:32px;}
+  th:nth-child(5),td:nth-child(5){width:38px;}
+  th:nth-child(6),td:nth-child(6){width:38px;}
+  th:nth-child(7),td:nth-child(7){width:36px;}
+  th:nth-child(8),td:nth-child(8){width:42px;}
+  th:nth-child(9),td:nth-child(9){width:38px;}
+  th:nth-child(10),td:nth-child(10){width:36px;}
+  th:nth-child(11),td:nth-child(11){width:44px;}
 }
 
 .home-btn{
@@ -230,7 +261,6 @@ tbody tr:hover{ transform:scale(1.02); }
   background:#8b5cf6;
   transform:scale(1.08);
 }
-
 </style>
 </head>
 
@@ -259,13 +289,14 @@ tbody tr:hover{ transform:scale(1.02); }
         <button onclick="sortBy('overs')">overs</button>
         <button onclick="sortBy('strikeRate')">Strike Rate</button>
         <button onclick="sortBy('economy')">Economy</button>
-        <button onclick="sortBy('mvp')">MVP</button>
+        <button onclick="sortBy('mvp')">MVP Score</button>
       </div>
     </div>
   </div>
 
+  <div class="table-scroll">
   <table>
-    <!-- DESKTOP HEADER -->
+
     <thead class="desktop-thead">
       <tr>
         <th>Rank</th><th>Name</th><th>Matches</th><th>Seasons</th><th>Runs</th><th>Balls</th>
@@ -273,25 +304,25 @@ tbody tr:hover{ transform:scale(1.02); }
       </tr>
     </thead>
 
-    <!-- MOBILE HEADER -->
     <thead class="mobile-thead">
       <tr>
         <th>Rank</th>
         <th>Name</th>
         <th>Matches</th>
         <th>Seasons</th>
-        <th>Runs</th>
-        <th>Balls</th>
+        <th>Total Runs</th>
+        <th>Total Balls</th>
         <th>overs</th>
-        <th>SR</th>
-        <th>Eco</th>
-        <th>Wic</th>
-        <th>MVP pts</th>
+        <th>StrikeRate</th>
+        <th>Economy</th>
+        <th>Wickets</th>
+        <th>MVP Score</th>
       </tr>
     </thead>
 
     <tbody id="tbody"></tbody>
   </table>
+  </div>
 </div>
 
 <script>
@@ -441,4 +472,5 @@ function sortBy(key){
 
 </body>
 </html>
+
 
