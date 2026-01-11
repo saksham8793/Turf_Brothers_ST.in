@@ -351,10 +351,13 @@ nav a:hover{
   <h1>Join our Turf_Brothers_ST Community</h1>
   <div class="contact-card">
     <p>Be a part of our growing cricket family! Submit your details and connect with fellow enthusiasts.</p>
+    <form action="https://formspree.io/f/mzzrwwqw" method="POST">
     <input type="text" placeholder="Your Name">
     <input type="email" placeholder="Your Email">
-    <textarea rows="5" placeholder="Your Message"></textarea>
-    <button>Send Message</button>
+    <input type="text" name="whatsapp" placeholder="Your WhatsApp Number" required />
+    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+    </form>
   </div>
 </section>
 
@@ -369,5 +372,4 @@ window.addEventListener("scroll",()=>{
 </script>
 </body>
 </html>
-
 
